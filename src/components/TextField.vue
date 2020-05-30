@@ -10,11 +10,11 @@
         :placeholder="formControl.placeholder"
         :readonly="formControl.readonly"
         :class="vClass()"
-        @blur="touched"
-        @input="dirty"
+        @blur="formControl.touched = true"
+        @input="formControl.dirty = true"
       />
     </div>
-    <small v-if="isErrorState()" class="help is-danger has-text-left">{{formControl.errors[0]}}</small>
+    <small v-if="isErrorState" class="help is-danger has-text-left">{{formControl.errors[0]}}</small>
   </div>
 </template>
 
@@ -31,32 +31,23 @@ export default class TextField extends Vue {
 
   mounted() {
 
-    console.log('OI');
-    console.log(this.formControl);
     if (!this.formControl) {
       throw new Error('A FormControl instance is required');
     }else if (!this.formControl.id) {
       this.formControl.id = `input-text-${TextField._id}`;
       TextField._id += 1;
     }
-    console.log(this.formControl);
 
   }
-
-  touched(){
-    this.formControl.touched = true
-  }
-
-  dirty(){
-    this.formControl.dirty = true
-  }
-
 
   isErrorState(){
+
     return !this.formControl.valid && this.formControl.touched;
   }
 
   vClass() {
+
+
     return { 'is-danger': this.isErrorState()};
   }
 }

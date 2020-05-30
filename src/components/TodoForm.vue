@@ -31,15 +31,18 @@ export default class TodoForm extends Vue implements BaseForm {
       },
       [
         (formControl: FormControl) => {
-          const error = !formControl.value
-
-          console.log('Validando required');
 
 
-          return {
+
+          const error = formControl.touched && formControl.value === ''
+
+          const res = {
             error,
             message: error? `${formControl.label} is required` : ''
           }
+
+
+          return res;
         },
       ]);
 
